@@ -22,18 +22,18 @@ public class Player : MonoBehaviour
     private void checkInput()
     {
 
-        float movX = Input.GetAxis("Horizontal") * .1f;
-        float movZ = Input.GetAxis("Vertical") * .2f;
+        float movX = Input.GetAxis("Horizontal") * -0.1f;
+        float movZ = Input.GetAxis("Vertical") * -0.2f;
         //   float movRotation = Input.GetAxis("Rotate") * .9f;
         float movRotation = 0;
 
         if (Input.GetKey(KeyCode.Q))
         {
-            movRotation = 0.5f;
+            movRotation = -0.5f;
         }
         else if (Input.GetKey(KeyCode.E))
         {
-            movRotation = -0.5f;
+            movRotation = 0.5f;
         }
 
         transform.Translate(new Vector3(movX, 0, movZ));

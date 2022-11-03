@@ -59,6 +59,18 @@
     <Compile Include="Assets\Resources\Scripts\CameraScript.cs" />
     <Compile Include="Assets\Resources\Scripts\Player.cs" />
     <Compile Include="Assets\Resources\Scripts\Rotate.cs" />
+    <Compile Include="Assets\Archanor\Sci-Fi Arsenal\Sci-Fi Effects\Scripts\SciFiLightFade.cs" />
+    <Compile Include="Assets\Archanor\Sci-Fi Arsenal\Sci-Fi Effects\Scripts\SciFiRotation.cs" />
+    <Compile Include="Assets\Archanor\Sci-Fi Arsenal\InteractiveDemo\Demo Scripts\SciFiLoadSceneOnClick.cs" />
+    <Compile Include="Assets\Archanor\Sci-Fi Arsenal\InteractiveDemo\Demo Scripts\SciFiProjectileScript.cs" />
+    <Compile Include="Assets\Archanor\Sci-Fi Arsenal\Sci-Fi Effects\Scripts\SciFiBeamStatic.cs" />
+    <Compile Include="Assets\Archanor\Sci-Fi Arsenal\InteractiveDemo\Demo Scripts\SciFiDragMouseOrbit.cs" />
+    <Compile Include="Assets\Archanor\Sci-Fi Arsenal\InteractiveDemo\Demo Scripts\SciFiLoopScript.cs" />
+    <Compile Include="Assets\Archanor\Sci-Fi Arsenal\Sci-Fi Effects\Scripts\SciFiLightFlicker.cs" />
+    <Compile Include="Assets\Archanor\Sci-Fi Arsenal\Sci-Fi Effects\Scripts\SciFiPitchRandomizer.cs" />
+    <Compile Include="Assets\Archanor\Sci-Fi Arsenal\InteractiveDemo\Demo Scripts\SciFiButtonScript.cs" />
+    <Compile Include="Assets\Archanor\Sci-Fi Arsenal\InteractiveDemo\Demo Scripts\SciFiBeamScript.cs" />
+    <Compile Include="Assets\Archanor\Sci-Fi Arsenal\InteractiveDemo\Demo Scripts\SciFiFireProjectile.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
