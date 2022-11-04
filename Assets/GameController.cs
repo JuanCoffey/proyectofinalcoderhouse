@@ -55,7 +55,7 @@ public class GameController : MonoBehaviour
         EnemyCastlesPositionsSelected.Add(randomNumber);
         GameObject enemyCastle = UnityEngine.Object.Instantiate(Resources.Load("Prefabs/castle1", typeof(GameObject)), EnemyCastles.transform) as GameObject;
         enemyCastle.transform.position = EnemyCastlesPositions[randomNumber].transform.position;
-        enemyCastle.transform.position = new Vector3(enemyCastle.transform.position.x, 32, enemyCastle.transform.position.z);
+        enemyCastle.transform.position = new Vector3(enemyCastle.transform.position.x, 15, enemyCastle.transform.position.z);
 
         Invoke("CreateEnemyCastle", 5);
     }

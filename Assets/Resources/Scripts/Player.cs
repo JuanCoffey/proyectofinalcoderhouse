@@ -42,13 +42,13 @@ public class Player : MonoBehaviour
         transform.Rotate(new Vector3(0, movRotation, 0));
     }
 
-    private void OnCollisionEnter(Collision collision)
+    void OnCollisionEnter(Collision hit)
     {
-        if (collision.gameObject.CompareTag("AmmoCrate"))
+        if (hit.collider.gameObject.CompareTag("AmmoCrate"))
         {
-            gameObject.GetComponent<SciFiFireProjectile>().PickUpAmmo(1,2);
+            gameObject.transform.Find("SciFiFireProjectile").gameObject.GetComponent<SciFiFireProjectile>().PickUpAmmo(1,2);
 
-            Destroy(collision.gameObject);
+            Destroy(hit.collider.gameObject);
         }
     }
 
