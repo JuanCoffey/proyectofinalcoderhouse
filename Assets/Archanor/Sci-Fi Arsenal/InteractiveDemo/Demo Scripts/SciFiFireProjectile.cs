@@ -3,6 +3,7 @@ using UnityEngine.EventSystems;
 using System.Collections;
 using System;
 using UnityEngine.UI;
+using TMPro;
 
 namespace SciFiArsenal
 {
@@ -15,6 +16,9 @@ namespace SciFiArsenal
         public Transform spawnPosition1;
         public Transform spawnPosition2;
         public byte CurrentWeaponSelected;
+        public byte AmmoWeapon0;
+        public byte AmmoWeapon1;
+        public byte AmmoWeapon2;
 
         public GameObject WeaponIdleParticle0;
         public GameObject WeaponIdleParticle1;
@@ -38,6 +42,9 @@ namespace SciFiArsenal
         void Start()
         {
             CurrentWeaponSelected = 0;
+            AmmoWeapon0 = 3;
+            AmmoWeapon1 = 2;
+            AmmoWeapon2 = 2;
         }
 
         RaycastHit hit;
@@ -103,16 +110,28 @@ namespace SciFiArsenal
             switch (CurrentWeaponSelected)
             {
                 case 0:
+                    if (AmmoWeapon0 == 0)
+                    {
+                        return;
+                    }
                     Weapon0CoolDown = 5;
                     spawnPosition = spawnPosition0;
                     imgWeapon0Cooldown.fillAmount = 0;
                     break;
                 case 1:
+                    if (AmmoWeapon1 == 0)
+                    {
+                        return;
+                    }
                     Weapon1CoolDown = 3.5f;
                     spawnPosition = spawnPosition1;
                     imgWeapon1Cooldown.fillAmount = 0;
                     break;
                 case 2:
+                    if (AmmoWeapon2 == 0)
+                    {
+                        return;
+                    }
                     Weapon2CoolDown = 4.2f;
                     spawnPosition = spawnPosition2;
                     imgWeapon2Cooldown.fillAmount = 0;
@@ -125,6 +144,68 @@ namespace SciFiArsenal
             GameObject projectile = Instantiate(projectiles[currentProjectile], spawnPosition.position, Quaternion.identity) as GameObject; //Spawns the selected projectile
             projectile.transform.LookAt(hit.point); //Sets the projectiles rotation to look at the point clicked
             projectile.GetComponent<Rigidbody>().AddForce(projectile.transform.forward * speed); //Set the speed of the projectile by applying force to the rigidbody
+
+
+            discountAmmo();
+        }
+
+        private void discountAmmo()
+        {
+            switch (CurrentWeaponSelected)
+            {
+                case 0:
+                    AmmoWeapon0--;
+                    imgWeapon0Cooldown.transform.parent.Find("lblAmmo").gameObject.GetComponent<TextMeshProUGUI>().text = AmmoWeapon0 + "♦";
+                    if (AmmoWeapon0 == 0)
+                    {
+                        imgWeapon0Cooldown.transform.parent.Find("lblAmmo").gameObject.GetComponent<TextMeshProUGUI>().color = Color.red;
+                    }
+                    break;
+                case 1:
+                    AmmoWeapon1--;
+                    imgWeapon1Cooldown.transform.parent.Find("lblAmmo").gameObject.GetComponent<TextMeshProUGUI>().text = AmmoWeapon1 + "♦";
+                    if (AmmoWeapon1 == 0)
+                    {
+                        imgWeapon1Cooldown.transform.parent.Find("lblAmmo").gameObject.GetComponent<TextMeshProUGUI>().color = Color.red;
+                    }
+                    break;
+                case 2:
+                    AmmoWeapon2--;
+                    imgWeapon2Cooldown.transform.parent.Find("lblAmmo").gameObject.GetComponent<TextMeshProUGUI>().text = AmmoWeapon2 + "♦";
+                    if (AmmoWeapon2 == 0)
+                    {
+                        imgWeapon2Cooldown.transform.parent.Find("lblAmmo").gameObject.GetComponent<TextMeshProUGUI>().color = Color.red;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        public void PickUpAmmo(byte ammoCode, byte ammoCount)
+        {
+
+
+            switch (ammoCode)
+            {
+                case 0:
+                    AmmoWeapon0 += ammoCount;
+                    imgWeapon0Cooldown.transform.parent.Find("lblAmmo").gameObject.GetComponent<TextMeshProUGUI>().text = AmmoWeapon0 + "♦";
+                    imgWeapon0Cooldown.transform.parent.Find("lblAmmo").gameObject.GetComponent<TextMeshProUGUI>().color = Color.white;
+                    break;
+                case 1:
+                    AmmoWeapon1 += ammoCount;
+                    imgWeapon1Cooldown.transform.parent.Find("lblAmmo").gameObject.GetComponent<TextMeshProUGUI>().text = AmmoWeapon1 + "♦";
+                    imgWeapon1Cooldown.transform.parent.Find("lblAmmo").gameObject.GetComponent<TextMeshProUGUI>().color = Color.white;
+                    break;
+                case 2:
+                    AmmoWeapon2 += ammoCount;
+                    imgWeapon2Cooldown.transform.parent.Find("lblAmmo").gameObject.GetComponent<TextMeshProUGUI>().text = AmmoWeapon2 + "♦";
+                    imgWeapon2Cooldown.transform.parent.Find("lblAmmo").gameObject.GetComponent<TextMeshProUGUI>().color = Color.white;
+                    break;
+                default:
+                    break;
+            }
         }
 
         private bool checkIfOnCooldown()

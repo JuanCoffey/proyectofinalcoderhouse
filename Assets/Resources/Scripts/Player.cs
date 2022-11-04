@@ -1,3 +1,4 @@
+using SciFiArsenal;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -39,6 +40,16 @@ public class Player : MonoBehaviour
         transform.Translate(new Vector3(movX, 0, movZ));
 
         transform.Rotate(new Vector3(0, movRotation, 0));
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("AmmoCrate"))
+        {
+            gameObject.GetComponent<SciFiFireProjectile>().PickUpAmmo(1,2);
+
+            Destroy(collision.gameObject);
+        }
     }
 
 }
