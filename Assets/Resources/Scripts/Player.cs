@@ -22,7 +22,7 @@ public class Player : MonoBehaviour
     private void checkInput()
     {
 
-        float movX = Input.GetAxis("Horizontal") * -0.1f;
+        float movX = Input.GetAxis("Horizontal") * -0.2f;
         float movZ = Input.GetAxis("Vertical") * -0.2f;
         //   float movRotation = Input.GetAxis("Rotate") * .9f;
         float movRotation = 0;
