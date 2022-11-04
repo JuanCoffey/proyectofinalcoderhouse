@@ -47,17 +47,17 @@ namespace SciFiArsenal
             if (Weapon0CoolDown > 0)
             {
                 Weapon0CoolDown -= Time.deltaTime;
-                imgWeapon0Cooldown.fillAmount = 1 - (Weapon0CoolDown / 4);
+                imgWeapon0Cooldown.fillAmount = 1 - (Weapon0CoolDown / 5);
             }
             if (Weapon1CoolDown > 0)
             {
                 Weapon1CoolDown -= Time.deltaTime;
-                imgWeapon1Cooldown.fillAmount = 1 - (Weapon1CoolDown / 4);
+                imgWeapon1Cooldown.fillAmount = 1 - (Weapon1CoolDown / 3.5f);
             }
             if (Weapon2CoolDown > 0)
             {
                 Weapon2CoolDown -= Time.deltaTime;
-                imgWeapon2Cooldown.fillAmount = 1 - (Weapon2CoolDown / 4);
+                imgWeapon2Cooldown.fillAmount = 1 - (Weapon2CoolDown / 4.2f);
             }
 
             if (Input.GetKeyDown(KeyCode.RightArrow))
@@ -103,17 +103,17 @@ namespace SciFiArsenal
             switch (CurrentWeaponSelected)
             {
                 case 0:
-                    Weapon0CoolDown = 4;
+                    Weapon0CoolDown = 5;
                     spawnPosition = spawnPosition0;
                     imgWeapon0Cooldown.fillAmount = 0;
                     break;
                 case 1:
-                    Weapon1CoolDown = 4;
+                    Weapon1CoolDown = 3.5f;
                     spawnPosition = spawnPosition1;
                     imgWeapon1Cooldown.fillAmount = 0;
                     break;
                 case 2:
-                    Weapon2CoolDown = 4;
+                    Weapon2CoolDown = 4.2f;
                     spawnPosition = spawnPosition2;
                     imgWeapon2Cooldown.fillAmount = 0;
                     break;
