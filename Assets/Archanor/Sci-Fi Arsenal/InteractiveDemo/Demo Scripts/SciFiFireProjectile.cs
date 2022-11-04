@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 using System.Collections;
+using System;
 
 namespace SciFiArsenal
 {
@@ -13,19 +14,26 @@ namespace SciFiArsenal
         [HideInInspector]
         public int currentProjectile = 0;
         public float speed = 1000;
+        public float CoolDownLeft = 0;
+
 
         //    MyGUI _GUI;
-      //  SciFiButtonScript selectedProjectileButton;
+        //  SciFiButtonScript selectedProjectileButton;
 
         void Start()
         {
-           // selectedProjectileButton = GameObject.Find("Button").GetComponent<SciFiButtonScript>();
+            // selectedProjectileButton = GameObject.Find("Button").GetComponent<SciFiButtonScript>();
         }
 
         RaycastHit hit;
 
         void Update()
         {
+            if (CoolDownLeft > 0)
+            {
+                CoolDownLeft -= Time.deltaTime;
+            }
+
             if (Input.GetKeyDown(KeyCode.RightArrow))
             {
                 nextEffect();
@@ -45,20 +53,33 @@ namespace SciFiArsenal
                 previousEffect();
             }
 
-            if (Input.GetKeyDown(KeyCode.Mouse0)) //On left mouse down-click
+            if (Input.GetKeyDown(KeyCode.Mouse0))
             {
-                if (!EventSystem.current.IsPointerOverGameObject()) //Checks if the mouse is not over a UI part
+                if (!EventSystem.current.IsPointerOverGameObject())
                 {
-                    if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 10000f)) //Finds the point where you click with the mouse
+                    if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 10000f))
                     {
-                        GameObject projectile = Instantiate(projectiles[currentProjectile], spawnPosition.position, Quaternion.identity) as GameObject; //Spawns the selected projectile
-                        projectile.transform.LookAt(hit.point); //Sets the projectiles rotation to look at the point clicked
-                        projectile.GetComponent<Rigidbody>().AddForce(projectile.transform.forward * speed); //Set the speed of the projectile by applying force to the rigidbody
+                        if (!checkIfOnCooldown())
+                        {
+                            GameObject projectile = Instantiate(projectiles[currentProjectile], spawnPosition.position, Quaternion.identity) as GameObject; //Spawns the selected projectile
+                            projectile.transform.LookAt(hit.point); //Sets the projectiles rotation to look at the point clicked
+                            projectile.GetComponent<Rigidbody>().AddForce(projectile.transform.forward * speed); //Set the speed of the projectile by applying force to the rigidbody
+                            CoolDownLeft = 4;
+                        }
                     }
                 }
             }
+
             Debug.DrawRay(Camera.main.ScreenPointToRay(Input.mousePosition).origin, Camera.main.ScreenPointToRay(Input.mousePosition).direction * 100, Color.yellow);
+           
         }
+
+        private bool checkIfOnCooldown()
+        {
+            return CoolDownLeft > 0;
+        }
+
+
 
         public void nextEffect() //Changes the selected projectile to the next. Used by UI
         {
@@ -66,7 +87,7 @@ namespace SciFiArsenal
                 currentProjectile++;
             else
                 currentProjectile = 0;
-			//selectedProjectileButton.getProjectileNames();
+            //selectedProjectileButton.getProjectileNames();
         }
 
         public void previousEffect() //Changes selected projectile to the previous. Used by UI
@@ -75,7 +96,7 @@ namespace SciFiArsenal
                 currentProjectile--;
             else
                 currentProjectile = projectiles.Length - 1;
-			//selectedProjectileButton.getProjectileNames();
+            //selectedProjectileButton.getProjectileNames();
         }
 
         public void AdjustSpeed(float newSpeed) //Used by UI to set projectile speed

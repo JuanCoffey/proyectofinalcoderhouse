@@ -37,8 +37,8 @@ public class SciFiDragMouseOrbit : MonoBehaviour
         {
             if (Input.GetMouseButton(1))
             {
-                velocityX += xSpeed * Input.GetAxis("Mouse X") * distance * 0.02f;
-                velocityY += ySpeed * Input.GetAxis("Mouse Y") * 0.02f;
+                velocityX += xSpeed * Input.GetAxis("Mouse X") * distance * 0.008f;
+                velocityY += ySpeed * Input.GetAxis("Mouse Y") * 0.03f;
             }
             rotationYAxis += velocityX;
             rotationXAxis -= velocityY;
