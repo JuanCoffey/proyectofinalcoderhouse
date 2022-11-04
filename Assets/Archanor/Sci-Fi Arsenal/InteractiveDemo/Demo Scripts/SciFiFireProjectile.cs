@@ -2,6 +2,7 @@
 using UnityEngine.EventSystems;
 using System.Collections;
 using System;
+using UnityEngine.UI;
 
 namespace SciFiArsenal
 {
@@ -10,11 +11,25 @@ namespace SciFiArsenal
         [SerializeField]
         public GameObject[] projectiles;
         [Header("Missile spawns at attached game object")]
-        public Transform spawnPosition;
+        public Transform spawnPosition0;
+        public Transform spawnPosition1;
+        public Transform spawnPosition2;
+        public byte CurrentWeaponSelected;
+
+        public GameObject WeaponIdleParticle0;
+        public GameObject WeaponIdleParticle1;
+        public GameObject WeaponIdleParticle2;
+
+
         [HideInInspector]
         public int currentProjectile = 0;
         public float speed = 1000;
-        public float CoolDownLeft = 0;
+        public float Weapon0CoolDown = 0;
+        public float Weapon1CoolDown = 0;
+        public float Weapon2CoolDown = 0;
+        public Image imgWeapon0Cooldown;
+        public Image imgWeapon1Cooldown;
+        public Image imgWeapon2Cooldown;
 
 
         //    MyGUI _GUI;
@@ -22,16 +37,27 @@ namespace SciFiArsenal
 
         void Start()
         {
-            // selectedProjectileButton = GameObject.Find("Button").GetComponent<SciFiButtonScript>();
+            CurrentWeaponSelected = 0;
         }
 
         RaycastHit hit;
 
         void Update()
         {
-            if (CoolDownLeft > 0)
+            if (Weapon0CoolDown > 0)
             {
-                CoolDownLeft -= Time.deltaTime;
+                Weapon0CoolDown -= Time.deltaTime;
+                imgWeapon0Cooldown.fillAmount = 1 - (Weapon0CoolDown / 4);
+            }
+            if (Weapon1CoolDown > 0)
+            {
+                Weapon1CoolDown -= Time.deltaTime;
+                imgWeapon1Cooldown.fillAmount = 1 - (Weapon1CoolDown / 4);
+            }
+            if (Weapon2CoolDown > 0)
+            {
+                Weapon2CoolDown -= Time.deltaTime;
+                imgWeapon2Cooldown.fillAmount = 1 - (Weapon2CoolDown / 4);
             }
 
             if (Input.GetKeyDown(KeyCode.RightArrow))
@@ -61,22 +87,65 @@ namespace SciFiArsenal
                     {
                         if (!checkIfOnCooldown())
                         {
-                            GameObject projectile = Instantiate(projectiles[currentProjectile], spawnPosition.position, Quaternion.identity) as GameObject; //Spawns the selected projectile
-                            projectile.transform.LookAt(hit.point); //Sets the projectiles rotation to look at the point clicked
-                            projectile.GetComponent<Rigidbody>().AddForce(projectile.transform.forward * speed); //Set the speed of the projectile by applying force to the rigidbody
-                            CoolDownLeft = 4;
+                            FireCurrentWeapon();
                         }
                     }
                 }
             }
 
             Debug.DrawRay(Camera.main.ScreenPointToRay(Input.mousePosition).origin, Camera.main.ScreenPointToRay(Input.mousePosition).direction * 100, Color.yellow);
-           
+
+        }
+
+        private void FireCurrentWeapon()
+        {
+            Transform spawnPosition = null;
+            switch (CurrentWeaponSelected)
+            {
+                case 0:
+                    Weapon0CoolDown = 4;
+                    spawnPosition = spawnPosition0;
+                    imgWeapon0Cooldown.fillAmount = 0;
+                    break;
+                case 1:
+                    Weapon1CoolDown = 4;
+                    spawnPosition = spawnPosition1;
+                    imgWeapon1Cooldown.fillAmount = 0;
+                    break;
+                case 2:
+                    Weapon2CoolDown = 4;
+                    spawnPosition = spawnPosition2;
+                    imgWeapon2Cooldown.fillAmount = 0;
+                    break;
+                default:
+                    spawnPosition = spawnPosition0;
+                    Weapon0CoolDown = 4;
+                    break;
+            }
+            GameObject projectile = Instantiate(projectiles[currentProjectile], spawnPosition.position, Quaternion.identity) as GameObject; //Spawns the selected projectile
+            projectile.transform.LookAt(hit.point); //Sets the projectiles rotation to look at the point clicked
+            projectile.GetComponent<Rigidbody>().AddForce(projectile.transform.forward * speed); //Set the speed of the projectile by applying force to the rigidbody
         }
 
         private bool checkIfOnCooldown()
         {
-            return CoolDownLeft > 0;
+            bool isOnCooldown = false;
+
+            switch (CurrentWeaponSelected)
+            {
+                case 0:
+                    isOnCooldown = Weapon0CoolDown > 0;
+                    break;
+                case 1:
+                    isOnCooldown = Weapon1CoolDown > 0;
+                    break;
+                case 2:
+                    isOnCooldown = Weapon2CoolDown > 0;
+                    break;
+                default:
+                    break;
+            }
+            return isOnCooldown;
         }
 
 
