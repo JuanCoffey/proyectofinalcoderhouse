@@ -41,8 +41,10 @@ public class GameController : MonoBehaviour
 
     private void CreateCrate()
     {
-        if (Crates.transform.childCount == 4)
+      if (Crates.transform.childCount == 5)
         {
+            //max crates reached, try again in 3 seconds
+            Invoke("CreateCrate", 3);
             return;
         }
 
@@ -50,21 +52,33 @@ public class GameController : MonoBehaviour
         int index = UnityEngine.Random.Range(0, CratesPositions.Length);
         GameObject spawnPoint = CratesPositions[index];
 
+
+        string prefabName = "AmmoCrate";
+
+        var rand = new System.Random();
+
+        if (rand.NextDouble() >= 0.5)
+        {
+            prefabName = "HealthCrate";
+        }
+
+        GameObject crateInstance = UnityEngine.Object.Instantiate(Resources.Load("Prefabs/"+ prefabName, typeof(GameObject)), Crates.transform) as GameObject;
+        crateInstance.transform.position = spawnPoint.transform.position;
+        crateInstance.transform.position = new Vector3(crateInstance.transform.position.x, 50, crateInstance.transform.position.z);
+        crateInstance.name = "crate_" + Crates.transform.childCount;
+
+
         for (int i = 0; i < Crates.transform.childCount; i++)
         {
             //check if there is already a create at the desired position
             //if there is one, recursively call current method and try again
-            if (spawnPoint.transform.position == Crates.transform.GetChild(i).transform.position)
+            if (crateInstance.transform.position == Crates.transform.GetChild(i).transform.position && !Crates.transform.GetChild(i).name.Equals(crateInstance.name)) 
             {
+                Destroy(crateInstance);
                 CreateCrate();
                 return;
             }
         }
-
-        GameObject crateInstance = UnityEngine.Object.Instantiate(Resources.Load("Prefabs/AmmoCrate", typeof(GameObject)), Crates.transform) as GameObject;
-        crateInstance.transform.position = spawnPoint.transform.position;
-        crateInstance.transform.position = new Vector3(crateInstance.transform.position.x, 50, crateInstance.transform.position.z);
-        
         
 
         Invoke("CreateCrate", 5);
@@ -72,11 +86,10 @@ public class GameController : MonoBehaviour
 
     private void CreateEnemyCastle()
     {
-        if (EnemyCastlesPositionsSelected.Count == 4)
+        if (EnemyCastlesPositionsSelected.Count == 3)
         {
             return;
         }
-
 
         byte randomNumber = (byte)UnityEngine.Random.Range(0, EnemyCastlesPositions.Length);
 

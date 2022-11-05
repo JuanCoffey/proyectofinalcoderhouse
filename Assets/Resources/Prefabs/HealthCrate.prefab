@@ -46,7 +46,7 @@ GameObject:
   - component: {fileID: 4570609373127489819}
   m_Layer: 6
   m_Name: Capsule
-  m_TagString: AmmoCrate
+  m_TagString: HealthCrate
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

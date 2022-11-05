@@ -19,7 +19,7 @@ public class EnemyCaslte : MonoBehaviour
 
     public byte CurrentCannonFire;
 
-    const float MaxCooldown = 8f;
+    const float MaxCooldown = 9f;
 
     // Start is called before the first frame update
     void Start()

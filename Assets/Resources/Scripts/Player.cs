@@ -62,11 +62,14 @@ public class Player : MonoBehaviour
     {
         if (hit.collider.gameObject.CompareTag("AmmoCrate"))
         {
-            gameObject.transform.Find("SciFiFireProjectile").gameObject.GetComponent<SciFiFireProjectile>().PickUpAmmo(1, 2);
+            byte ranAmmoCode = (byte)UnityEngine.Random.Range(0, 3);
+            byte ranAmmoCant = (byte)UnityEngine.Random.Range(1, 4);
+
+            gameObject.transform.Find("SciFiFireProjectile").gameObject.GetComponent<SciFiFireProjectile>().PickUpAmmo(ranAmmoCode, ranAmmoCant);
 
             Destroy(hit.collider.gameObject.transform.parent.gameObject);
         }
-        else if (hit.collider.gameObject.CompareTag("HealthCrate"))
+        else if(hit.collider.gameObject.CompareTag("HealthCrate"))
         {
             PickUpHealth();
 
