@@ -12,6 +12,7 @@ public class GameController : MonoBehaviour
     public GameObject EnemyCastles;
     public GameObject Player;
     public GameObject SciFiProjectile;
+    public GameObject MainCanvas;
 
 
     public GameObject[] EnemyCastlesPositions;
@@ -57,8 +58,22 @@ public class GameController : MonoBehaviour
         GameObject enemyCastle = UnityEngine.Object.Instantiate(Resources.Load("Prefabs/castle1", typeof(GameObject)), EnemyCastles.transform) as GameObject;
         enemyCastle.transform.position = EnemyCastlesPositions[randomNumber].transform.position;
         enemyCastle.transform.position = new Vector3(enemyCastle.transform.position.x, 15, enemyCastle.transform.position.z);
+        rotateCastleTowards(enemyCastle);
+
 
         Invoke("CreateEnemyCastle", 5);
+    }
+
+    internal void PlayerDied()
+    {
+        MainCanvas.transform.Find("MainMenu").gameObject.SetActive(true);
+    }
+
+    void rotateCastleTowards(GameObject castle)
+    {
+        Quaternion r1 = Quaternion.LookRotation(Player.transform.position - castle.transform.position, Vector3.up);
+        Vector3 euler2 = transform.eulerAngles;
+        castle.transform.rotation = Quaternion.Euler(euler2.x, r1.eulerAngles.y, euler2.z);
     }
 
     // Update is called once per frame

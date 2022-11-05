@@ -19,11 +19,13 @@ public class EnemyCaslte : MonoBehaviour
 
     public byte CurrentCannonFire;
 
+    const float MaxCooldown = 8f;
+
     // Start is called before the first frame update
     void Start()
     {
         CurrentHealth = 1;
-        Cooldown = 4;
+        Cooldown = MaxCooldown;
         CurrentCannonFire = 0;
     }
 
@@ -52,7 +54,7 @@ public class EnemyCaslte : MonoBehaviour
     void Update()
     {
         Cooldown -= Time.deltaTime;
-        CooldownBar.GetComponent<Image>().fillAmount = 1 - (Cooldown / 4f);
+        CooldownBar.GetComponent<Image>().fillAmount = 1 - (Cooldown / MaxCooldown);
 
         if (Cooldown <= 0)
         {
@@ -65,7 +67,7 @@ public class EnemyCaslte : MonoBehaviour
 
     private void FireWeapon()
     {
-        Cooldown = 4;
+        Cooldown = MaxCooldown;
         Transform spawnPosition = null;
 
         if (CurrentCannonFire == 0)
