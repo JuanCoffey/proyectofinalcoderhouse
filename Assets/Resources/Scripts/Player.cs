@@ -51,17 +51,31 @@ public class Player : MonoBehaviour
     {
         CurrentHealth += updateHealthValue;
         HealthBar.GetComponent<Image>().fillAmount = CurrentHealth;
-                
+
+        if (CurrentHealth <= 0)
+        {
+            GameController.Instance.PlayerDied();
+        }
     }
 
     void OnCollisionEnter(Collision hit)
     {
         if (hit.collider.gameObject.CompareTag("AmmoCrate"))
         {
-            gameObject.transform.Find("SciFiFireProjectile").gameObject.GetComponent<SciFiFireProjectile>().PickUpAmmo(1,2);
+            gameObject.transform.Find("SciFiFireProjectile").gameObject.GetComponent<SciFiFireProjectile>().PickUpAmmo(1, 2);
 
-            Destroy(hit.collider.gameObject);
+            Destroy(hit.collider.gameObject.transform.parent.gameObject);
+        }
+        else if (hit.collider.gameObject.CompareTag("HealthCrate"))
+        {
+            PickUpHealth();
+
+            Destroy(hit.collider.gameObject.transform.parent.gameObject);
         }
     }
 
+    private void PickUpHealth()
+    {
+        UpdateHealthValue(0.2f);
+    }
 }

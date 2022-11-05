@@ -10,6 +10,7 @@ public class GameController : MonoBehaviour
 
     public static GameController Instance;
     public GameObject EnemyCastles;
+    public GameObject Crates;
     public GameObject Player;
     public GameObject SciFiProjectile;
     public GameObject MainCanvas;
@@ -18,7 +19,6 @@ public class GameController : MonoBehaviour
     public GameObject[] EnemyCastlesPositions;
     public GameObject[] CratesPositions;
     public List<byte> EnemyCastlesPositionsSelected;
-    public List<GameObject> Crates;
 
 
     public void Awake()
@@ -35,37 +35,39 @@ public class GameController : MonoBehaviour
         Invoke("CreateEnemyCastle", 5);
         Invoke("CreateCrate", 5);
         EnemyCastlesPositionsSelected = new List<byte>();
-        Crates = new List<GameObject>();
+        
         SelectWeapon("0");
     }
 
     private void CreateCrate()
     {
-        if (Crates.Count == 4)
+        if (Crates.transform.childCount == 4)
         {
             return;
         }
 
+        //get a random spawn position for new crate
+        int index = UnityEngine.Random.Range(0, CratesPositions.Length);
+        GameObject spawnPoint = CratesPositions[index];
 
-        byte randomNumber = (byte)UnityEngine.Random.Range(0, CratesPositions.Length);
-
-        for (int i = 0; i < EnemyCastlesPositionsSelected.Count; i++)
+        for (int i = 0; i < Crates.transform.childCount; i++)
         {
-            if (randomNumber == EnemyCastlesPositionsSelected[i])
+            //check if there is already a create at the desired position
+            //if there is one, recursively call current method and try again
+            if (spawnPoint.transform.position == Crates.transform.GetChild(i).transform.position)
             {
                 CreateCrate();
                 return;
             }
         }
 
-        EnemyCastlesPositionsSelected.Add(randomNumber);
-        GameObject enemyCastle = UnityEngine.Object.Instantiate(Resources.Load("Prefabs/castle1", typeof(GameObject)), EnemyCastles.transform) as GameObject;
-        enemyCastle.transform.position = EnemyCastlesPositions[randomNumber].transform.position;
-        enemyCastle.transform.position = new Vector3(enemyCastle.transform.position.x, 15, enemyCastle.transform.position.z);
-        rotateCastleTowards(enemyCastle);
+        GameObject crateInstance = UnityEngine.Object.Instantiate(Resources.Load("Prefabs/AmmoCrate", typeof(GameObject)), Crates.transform) as GameObject;
+        crateInstance.transform.position = spawnPoint.transform.position;
+        crateInstance.transform.position = new Vector3(crateInstance.transform.position.x, 50, crateInstance.transform.position.z);
+        
+        
 
-
-        Invoke("CreateEnemyCastle", 5);
+        Invoke("CreateCrate", 5);
     }
 
     private void CreateEnemyCastle()
