@@ -10,6 +10,7 @@ public class GameController : MonoBehaviour
 
     public static GameController Instance;
     public GameObject EnemyCastles;
+    public GameObject Player;
     public GameObject SciFiProjectile;
 
 
@@ -90,6 +91,7 @@ public class GameController : MonoBehaviour
     {
         SciFiFireProjectile sciFiFireProjectile = SciFiProjectile.GetComponent<SciFiFireProjectile>();
         sciFiFireProjectile.CurrentWeaponSelected = byte.Parse(weaponIndex);
+        sciFiFireProjectile.WeaponSelected = sciFiFireProjectile.Weapons[sciFiFireProjectile.CurrentWeaponSelected];
         sciFiFireProjectile.imgWeapon0Cooldown.transform.parent.Find("imgSelectedBg").gameObject.SetActive(false);
         sciFiFireProjectile.imgWeapon1Cooldown.transform.parent.Find("imgSelectedBg").gameObject.SetActive(false);
         sciFiFireProjectile.imgWeapon2Cooldown.transform.parent.Find("imgSelectedBg").gameObject.SetActive(false);

@@ -32,12 +32,16 @@ namespace SciFiArsenal
             {
                 hasCollided = true;
                 impactParticle = Instantiate(impactParticle, transform.position, Quaternion.FromToRotation(Vector3.up, impactNormal)) as GameObject;
-                
-                GameObject enemyCastle = hit.collider.gameObject;
 
-                if (enemyCastle.CompareTag("EnemyCastleMesh"))
+                GameObject collisionObject = hit.collider.gameObject;
+
+                if (collisionObject.CompareTag("EnemyCastleMesh"))
                 {
-                    enemyCastle.transform.parent.gameObject.GetComponent<EnemyCaslte>().UpdateHealthValue(-0.1f);
+                    collisionObject.transform.parent.gameObject.GetComponent<EnemyCaslte>().UpdateHealthValue(-0.1f);
+                }
+                else if (collisionObject.CompareTag("Player"))
+                {
+                    GameController.Instance.Player.GetComponent<Player>().UpdateHealthValue(-0.1f);
                 }
 
                 if (hit.gameObject.tag == "Destructible") // Projectile will destroy objects tagged as Destructible

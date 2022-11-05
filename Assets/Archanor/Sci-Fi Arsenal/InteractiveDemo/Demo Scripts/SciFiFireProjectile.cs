@@ -11,6 +11,7 @@ namespace SciFiArsenal
     {
         [SerializeField]
         public GameObject[] projectiles;
+        public GameObject[] Weapons;
         [Header("Missile spawns at attached game object")]
         public Transform spawnPosition0;
         public Transform spawnPosition1;
@@ -19,6 +20,8 @@ namespace SciFiArsenal
         public byte AmmoWeapon0;
         public byte AmmoWeapon1;
         public byte AmmoWeapon2;
+
+        public GameObject WeaponSelected;
 
         public GameObject WeaponIdleParticle0;
         public GameObject WeaponIdleParticle1;
@@ -35,9 +38,16 @@ namespace SciFiArsenal
         public Image imgWeapon1Cooldown;
         public Image imgWeapon2Cooldown;
 
+        public Vector3 FirePointer;
+
 
         //    MyGUI _GUI;
         //  SciFiButtonScript selectedProjectileButton;
+
+        private void Awake()
+        {
+            WeaponSelected = Weapons[0];
+        }
 
         void Start()
         {
@@ -100,8 +110,56 @@ namespace SciFiArsenal
                 }
             }
 
+            if (WeaponSelected != null)
+            {
+                rotateCannonTowards(WeaponSelected);
+            }
+
+
             Debug.DrawRay(Camera.main.ScreenPointToRay(Input.mousePosition).origin, Camera.main.ScreenPointToRay(Input.mousePosition).direction * 100, Color.yellow);
 
+        }
+
+        void rotateCannonTowards(GameObject cannon)
+        {
+            RaycastHit pointerHit;
+
+            Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out pointerHit, 10000f);
+
+            if (pointerHit.transform == null)
+            {
+                return;
+            }
+            /*FirePointer*/
+            /*Vector3 targetDirection = pointerHit.transform.position - cannon.transform.position;
+
+            float singleStep = 20 * Time.deltaTime;
+
+            Vector3 newDirection = Vector3.RotateTowards(cannon.transform.forward, targetDirection, singleStep, 0.0f);
+
+            Debug.DrawRay(cannon.transform.position, newDirection, Color.red);
+
+            cannon.transform.rotation = Quaternion.LookRotation(newDirection);*/
+
+
+
+
+
+            float rotSpeed = 360f;
+
+            // distance between target and the actual rotating object
+           // Vector3 D = target.position - transform.position;
+            Vector3 D = pointerHit.transform.position - cannon.transform.position;
+
+
+            // calculate the Quaternion for the rotation
+            Quaternion rot = Quaternion.Slerp(cannon.transform.rotation, Quaternion.LookRotation(D), rotSpeed * Time.deltaTime);
+
+            //Apply the rotation 
+            cannon.transform.rotation = rot;
+
+            // put 0 on the axys you do not want for the rotation object to rotate
+            cannon.transform.eulerAngles = new Vector3(0, cannon.transform.eulerAngles.y,0);
         }
 
         private void FireCurrentWeapon()
@@ -145,6 +203,7 @@ namespace SciFiArsenal
             projectile.transform.LookAt(hit.point); //Sets the projectiles rotation to look at the point clicked
             projectile.GetComponent<Rigidbody>().AddForce(projectile.transform.forward * speed); //Set the speed of the projectile by applying force to the rigidbody
 
+            FirePointer = hit.point;
 
             discountAmmo();
         }
