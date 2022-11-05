@@ -16,7 +16,9 @@ public class GameController : MonoBehaviour
 
 
     public GameObject[] EnemyCastlesPositions;
+    public GameObject[] CratesPositions;
     public List<byte> EnemyCastlesPositionsSelected;
+    public List<GameObject> Crates;
 
 
     public void Awake()
@@ -31,8 +33,39 @@ public class GameController : MonoBehaviour
     void Start()
     {
         Invoke("CreateEnemyCastle", 5);
+        Invoke("CreateCrate", 5);
         EnemyCastlesPositionsSelected = new List<byte>();
+        Crates = new List<GameObject>();
         SelectWeapon("0");
+    }
+
+    private void CreateCrate()
+    {
+        if (Crates.Count == 4)
+        {
+            return;
+        }
+
+
+        byte randomNumber = (byte)UnityEngine.Random.Range(0, CratesPositions.Length);
+
+        for (int i = 0; i < EnemyCastlesPositionsSelected.Count; i++)
+        {
+            if (randomNumber == EnemyCastlesPositionsSelected[i])
+            {
+                CreateCrate();
+                return;
+            }
+        }
+
+        EnemyCastlesPositionsSelected.Add(randomNumber);
+        GameObject enemyCastle = UnityEngine.Object.Instantiate(Resources.Load("Prefabs/castle1", typeof(GameObject)), EnemyCastles.transform) as GameObject;
+        enemyCastle.transform.position = EnemyCastlesPositions[randomNumber].transform.position;
+        enemyCastle.transform.position = new Vector3(enemyCastle.transform.position.x, 15, enemyCastle.transform.position.z);
+        rotateCastleTowards(enemyCastle);
+
+
+        Invoke("CreateEnemyCastle", 5);
     }
 
     private void CreateEnemyCastle()
