@@ -14,11 +14,13 @@ public class GameController : MonoBehaviour
     public GameObject Player;
     public GameObject SciFiProjectile;
     public GameObject MainCanvas;
+    public GameObject PresentationCamera;
 
 
     public GameObject[] EnemyCastlesPositions;
     public GameObject[] CratesPositions;
     public List<byte> EnemyCastlesPositionsSelected;
+    public ApplicationState CurrentState;
 
 
     public void Awake()
@@ -27,21 +29,46 @@ public class GameController : MonoBehaviour
         {
             Instance = this;
         }
-
+        CurrentState = ApplicationState.MainMenu;
     }
 
     void Start()
     {
+
+    }
+
+    public void StartNewGame()
+    {
+        CurrentState = ApplicationState.InGame;
+        PresentationCamera.SetActive(false);
+        Player.SetActive(true);
         Invoke("CreateEnemyCastle", 5);
         Invoke("CreateCrate", 5);
         EnemyCastlesPositionsSelected = new List<byte>();
-        
+
         SelectWeapon("0");
+        MainCanvas.transform.Find("MainMenu").gameObject.SetActive(false);
+        MainCanvas.transform.Find("GameCanvas").gameObject.SetActive(true);
+        Player.GetComponent<Player>().ResetHealth();
+        MainCanvas.transform.Find("MainMenu").transform.Find("lblLost").gameObject.SetActive(false);
+        MainCanvas.transform.Find("MainMenu").transform.Find("lblWon").gameObject.SetActive(false);
+    }
+
+
+    public void OpenKeyBindings()
+    {
+        MainCanvas.transform.Find("KeyBindingsMenu").gameObject.SetActive(true);
+
+    }
+    public void CloseKeyBindings()
+    {
+        MainCanvas.transform.Find("KeyBindingsMenu").gameObject.SetActive(false);
+
     }
 
     private void CreateCrate()
     {
-      if (Crates.transform.childCount == 5)
+        if (Crates.transform.childCount == 5)
         {
             //max crates reached, try again in 3 seconds
             Invoke("CreateCrate", 3);
@@ -57,12 +84,12 @@ public class GameController : MonoBehaviour
 
         var rand = new System.Random();
 
-        if (rand.NextDouble() >= 0.5)
+        if (rand.NextDouble() >= 0.65)
         {
             prefabName = "HealthCrate";
         }
 
-        GameObject crateInstance = UnityEngine.Object.Instantiate(Resources.Load("Prefabs/"+ prefabName, typeof(GameObject)), Crates.transform) as GameObject;
+        GameObject crateInstance = UnityEngine.Object.Instantiate(Resources.Load("Prefabs/" + prefabName, typeof(GameObject)), Crates.transform) as GameObject;
         crateInstance.transform.position = spawnPoint.transform.position;
         crateInstance.transform.position = new Vector3(crateInstance.transform.position.x, 50, crateInstance.transform.position.z);
         crateInstance.name = "crate_" + Crates.transform.childCount;
@@ -72,19 +99,19 @@ public class GameController : MonoBehaviour
         {
             //check if there is already a create at the desired position
             //if there is one, recursively call current method and try again
-            if (crateInstance.transform.position == Crates.transform.GetChild(i).transform.position && !Crates.transform.GetChild(i).name.Equals(crateInstance.name)) 
+            if (crateInstance.transform.position == Crates.transform.GetChild(i).transform.position && !Crates.transform.GetChild(i).name.Equals(crateInstance.name))
             {
                 Destroy(crateInstance);
                 CreateCrate();
                 return;
             }
         }
-        
+
 
         Invoke("CreateCrate", 5);
     }
 
-    private void CreateEnemyCastle()
+    private void CreateEnemyCastle(bool singleCastle = false)
     {
         if (EnemyCastlesPositionsSelected.Count == 3)
         {
@@ -114,7 +141,11 @@ public class GameController : MonoBehaviour
 
     internal void PlayerDied()
     {
+        PresentationCamera.SetActive(true);
+        Player.SetActive(false);
         MainCanvas.transform.Find("MainMenu").gameObject.SetActive(true);
+        MainCanvas.transform.Find("MainMenu").transform.Find("lblLost").gameObject.SetActive(true);
+        CurrentState = ApplicationState.MainMenu;
     }
 
     void rotateCastleTowards(GameObject castle)
@@ -142,6 +173,7 @@ public class GameController : MonoBehaviour
         }
 
     }
+
 
     public void FireWeapon(string weaponIndex)
     {
@@ -192,8 +224,31 @@ public class GameController : MonoBehaviour
 
     internal void EnemyDied()
     {
+        //wait for the current castle to die and then check if there are any left
+        Invoke("checkEnemiesLeft", 3);
+    }
 
+    private void checkEnemiesLeft()
+    {
+        if (EnemyCastles.transform.childCount == 0)
+        {
+            PlayerWon();
+        }
+    }
 
+    private void PlayerWon()
+    {
+        PresentationCamera.SetActive(true);
+        Player.SetActive(false);
+        MainCanvas.transform.Find("MainMenu").gameObject.SetActive(true);
+        MainCanvas.transform.Find("MainMenu").transform.Find("lblLost").gameObject.SetActive(false);
+        MainCanvas.transform.Find("MainMenu").transform.Find("lblWon").gameObject.SetActive(true);
+        CurrentState = ApplicationState.MainMenu;
 
+    }
+
+    public enum ApplicationState
+    {
+        InGame, MainMenu
     }
 }

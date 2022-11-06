@@ -96,7 +96,7 @@ namespace SciFiArsenal
                 previousEffect();
             }
 
-            if (Input.GetKeyDown(KeyCode.Mouse0))
+            if (Input.GetKeyDown(KeyCode.Mouse0) )
             {
                 if (!EventSystem.current.IsPointerOverGameObject())
                 {

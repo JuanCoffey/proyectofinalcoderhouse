@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
     void Start()
     {
 
-        CurrentHealth = 1;
+       
     }
 
     void Update()
@@ -45,6 +45,14 @@ public class Player : MonoBehaviour
         transform.Translate(new Vector3(movX, 0, movZ));
 
         transform.Rotate(new Vector3(0, movRotation, 0));
+    }
+
+    public void ResetHealth() {
+
+
+        CurrentHealth = 1;
+        HealthBar.GetComponent<Image>().fillAmount = CurrentHealth;
+
     }
 
     public void UpdateHealthValue(float updateHealthValue)
