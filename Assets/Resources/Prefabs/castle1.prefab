@@ -194,7 +194,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 798948960}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.001, z: 1.945}
+  m_LocalPosition: {x: 0, y: -0.16, z: 3.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -403,7 +403,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1459876136}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.016, z: 1.897}
+  m_LocalPosition: {x: 0, y: -0.14, z: 3.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2374,7 +2374,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CurrentHealth: 0
   Cooldown: 0
-  projectile: {fileID: 196444, guid: 3a0fa38982e605a41b394c9146ff7b2f, type: 3}
+  projectile0: {fileID: 196444, guid: 3a0fa38982e605a41b394c9146ff7b2f, type: 3}
+  projectile1: {fileID: 122692, guid: ba441e53a9f67e14eabbca1a92d5e05c, type: 3}
   HealthBar: {fileID: 364064151}
   CooldownBar: {fileID: 2829155062998168951}
   Cannon0: {fileID: 1648196986450952151}

@@ -613,11 +613,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!1 &117155512 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7425941516665960870, guid: 27dc290dc676e43409fc3b8b78ccb824, type: 3}
-  m_PrefabInstance: {fileID: 358754343}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &117155514 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7425941516665960871, guid: 27dc290dc676e43409fc3b8b78ccb824, type: 3}
@@ -813,7 +808,7 @@ GameObject:
   - component: {fileID: 241882163}
   - component: {fileID: 241882162}
   m_Layer: 0
-  m_Name: presentationCamera
+  m_Name: PresentationCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2819,8 +2814,8 @@ MonoBehaviour:
   EnemyCastles: {fileID: 1999546364}
   Crates: {fileID: 1547531189}
   Player: {fileID: 1483311390}
-  SciFiProjectile: {fileID: 117155512}
   MainCanvas: {fileID: 115546930}
+  PresentationCamera: {fileID: 241882161}
   EnemyCastlesPositions:
   - {fileID: 1850939501}
   - {fileID: 2090845964}
@@ -2834,6 +2829,7 @@ MonoBehaviour:
   - {fileID: 559573670}
   EnemyCastlesPositionsSelected: 
   CurrentState: 0
+  InitialCastlePosition: {fileID: 2113587253}
 --- !u!4 &926901728
 Transform:
   m_ObjectHideFlags: 0
@@ -11802,6 +11798,37 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   m_CustomBlends: {fileID: 0}
+--- !u!1 &2113587253
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2113587254}
+  m_Layer: 0
+  m_Name: InitialCastlePosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2113587254
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2113587253}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 127.4, y: 26.301582, z: 61.8}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 14
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2116500106
 GameObject:
   m_ObjectHideFlags: 0
@@ -27711,6 +27738,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1999546365}
     m_Modifications:
+    - target: {fileID: 1459876137, guid: 2408aeaaa02a39b4da3f29531560951b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 1459876137, guid: 2408aeaaa02a39b4da3f29531560951b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 3.6
+      objectReference: {fileID: 0}
     - target: {fileID: 4886824583398567962, guid: 2408aeaaa02a39b4da3f29531560951b, type: 3}
       propertyPath: m_Name
       value: castle1

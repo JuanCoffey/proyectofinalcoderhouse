@@ -12,7 +12,6 @@ public class GameController : MonoBehaviour
     public GameObject EnemyCastles;
     public GameObject Crates;
     public GameObject Player;
-    public GameObject SciFiProjectile;
     public GameObject MainCanvas;
     public GameObject PresentationCamera;
 
@@ -21,6 +20,8 @@ public class GameController : MonoBehaviour
     public GameObject[] CratesPositions;
     public List<byte> EnemyCastlesPositionsSelected;
     public ApplicationState CurrentState;
+
+    public GameObject InitialCastlePosition;
 
 
     public void Awake()
@@ -42,6 +43,13 @@ public class GameController : MonoBehaviour
         CurrentState = ApplicationState.InGame;
         PresentationCamera.SetActive(false);
         Player.SetActive(true);
+
+        SciFiFireProjectile sciFiFireProjectile = Player.transform.Find("SciFiFireProjectile").gameObject.GetComponent<SciFiFireProjectile>();
+        sciFiFireProjectile.AmmoWeapon0 = 2;
+        sciFiFireProjectile.AmmoWeapon1 = 2;
+        sciFiFireProjectile.AmmoWeapon2 = 2;
+
+
         Invoke("CreateEnemyCastle", 5);
         Invoke("CreateCrate", 5);
         EnemyCastlesPositionsSelected = new List<byte>();
@@ -111,7 +119,7 @@ public class GameController : MonoBehaviour
         Invoke("CreateCrate", 5);
     }
 
-    private void CreateEnemyCastle(bool singleCastle = false)
+    private void CreateEnemyCastle()
     {
         if (EnemyCastlesPositionsSelected.Count == 3)
         {
@@ -130,17 +138,22 @@ public class GameController : MonoBehaviour
         }
 
         EnemyCastlesPositionsSelected.Add(randomNumber);
-        GameObject enemyCastle = UnityEngine.Object.Instantiate(Resources.Load("Prefabs/castle1", typeof(GameObject)), EnemyCastles.transform) as GameObject;
-        enemyCastle.transform.position = EnemyCastlesPositions[randomNumber].transform.position;
-        enemyCastle.transform.position = new Vector3(enemyCastle.transform.position.x, 15, enemyCastle.transform.position.z);
-        rotateCastleTowards(enemyCastle);
-
+        createCastle(EnemyCastlesPositions[randomNumber].transform.position);
 
         Invoke("CreateEnemyCastle", 5);
     }
 
+    private void createCastle(Vector3 position)
+    {
+        GameObject enemyCastle = UnityEngine.Object.Instantiate(Resources.Load("Prefabs/castle1", typeof(GameObject)), EnemyCastles.transform) as GameObject;
+        enemyCastle.transform.position = position;
+        enemyCastle.transform.position = new Vector3(enemyCastle.transform.position.x, 15, enemyCastle.transform.position.z);
+        rotateCastleTowards(enemyCastle);
+    }
+
     internal void PlayerDied()
     {
+        createCastle(InitialCastlePosition.transform.position);
         PresentationCamera.SetActive(true);
         Player.SetActive(false);
         MainCanvas.transform.Find("MainMenu").gameObject.SetActive(true);
@@ -184,7 +197,7 @@ public class GameController : MonoBehaviour
 
     public void SelectWeapon(string weaponIndex)
     {
-        SciFiFireProjectile sciFiFireProjectile = SciFiProjectile.GetComponent<SciFiFireProjectile>();
+        SciFiFireProjectile sciFiFireProjectile = Player.transform.Find("SciFiFireProjectile").gameObject.GetComponent<SciFiFireProjectile>();
         sciFiFireProjectile.CurrentWeaponSelected = byte.Parse(weaponIndex);
         sciFiFireProjectile.WeaponSelected = sciFiFireProjectile.Weapons[sciFiFireProjectile.CurrentWeaponSelected];
         sciFiFireProjectile.imgWeapon0Cooldown.transform.parent.Find("imgSelectedBg").gameObject.SetActive(false);
@@ -238,6 +251,7 @@ public class GameController : MonoBehaviour
 
     private void PlayerWon()
     {
+        createCastle(InitialCastlePosition.transform.position);
         PresentationCamera.SetActive(true);
         Player.SetActive(false);
         MainCanvas.transform.Find("MainMenu").gameObject.SetActive(true);

@@ -9,7 +9,8 @@ public class EnemyCaslte : MonoBehaviour
     public float CurrentHealth;
     public float Cooldown;
 
-    public GameObject projectile;
+    public GameObject projectile0;
+    public GameObject projectile1;
 
     public GameObject HealthBar;
     public GameObject CooldownBar;
@@ -69,22 +70,25 @@ public class EnemyCaslte : MonoBehaviour
     {
         Cooldown = MaxCooldown;
         Transform spawnPosition = null;
+        GameObject fireProjectile = null;
 
         if (CurrentCannonFire == 0)
         {
-            CurrentCannonFire = 1;
+            fireProjectile = projectile0;
+           CurrentCannonFire = 1;
             spawnPosition = Cannon0.transform.Find("barrel").transform.Find("SpawnPoint");
         }
         else
         {
+            fireProjectile = projectile1;
             CurrentCannonFire = 0;
             spawnPosition = Cannon1.transform.Find("barrel").transform.Find("SpawnPoint");
         }
 
-        GameObject newProjectile = Instantiate(projectile, spawnPosition.position, Quaternion.identity) as GameObject; //Spawns the selected projectile
+        GameObject newProjectile = Instantiate(fireProjectile, spawnPosition.position, Quaternion.identity) as GameObject; //Spawns the selected projectile
         newProjectile.transform.LookAt(GameController.Instance.Player.transform); //Sets the projectiles rotation to look at the point clicked
         newProjectile.GetComponent<Rigidbody>().AddForce(newProjectile.transform.forward * 8000); //Set the speed of the projectile by applying force to the rigidbody
-        newProjectile.transform.localScale = Vector3.one * 9;
+        newProjectile.transform.localScale = Vector3.one * 15;
 
     }
 
