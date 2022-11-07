@@ -172,6 +172,7 @@ public class GameController : MonoBehaviour
         createCastle(InitialCastlePosition.transform.position, false);
         PresentationCamera.SetActive(true);
         Player.SetActive(false);
+        MainCanvas.transform.Find("GameCanvas").gameObject.SetActive(false);
         MainCanvas.transform.Find("MainMenu").gameObject.SetActive(true);
         MainCanvas.transform.Find("MainMenu").transform.Find("lblLost").gameObject.SetActive(true);
         CurrentState = ApplicationState.MainMenu;
@@ -269,6 +270,7 @@ public class GameController : MonoBehaviour
     {
         createCastle(InitialCastlePosition.transform.position, false);
         PresentationCamera.SetActive(true);
+        MainCanvas.transform.Find("GameCanvas").gameObject.SetActive(false);
         Player.SetActive(false);
         MainCanvas.transform.Find("MainMenu").gameObject.SetActive(true);
         MainCanvas.transform.Find("MainMenu").transform.Find("lblLost").gameObject.SetActive(false);

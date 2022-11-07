@@ -42,8 +42,9 @@ public class Player : MonoBehaviour
             movRotation = 0.5f;
         }
 
-        transform.Translate(new Vector3(movX, 0, movZ));
-
+        //   transform.Translate(new Vector3(movX, 0, movZ));
+      //  transform.gameObject.GetComponent<Rigidbody>().AddForce(new Vector3(movX, 0, movZ));
+        gameObject.GetComponent<Rigidbody>().AddForce(transform.forward , ForceMode.Impulse);
         transform.Rotate(new Vector3(0, movRotation, 0));
     }
 

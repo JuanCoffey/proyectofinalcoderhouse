@@ -86,18 +86,18 @@ public class EnemyCastle : MonoBehaviour
         {
             fireProjectile = projectile0;
             CurrentCannonFire = 1;
-            spawnPosition = Cannon0.transform.Find("barrel").transform.Find("SpawnPoint");
+            spawnPosition = Cannon0.transform.Find("SpawnPoint");
         }
         else
         {
             fireProjectile = projectile1;
             CurrentCannonFire = 0;
-            spawnPosition = Cannon1.transform.Find("barrel").transform.Find("SpawnPoint");
+            spawnPosition = Cannon1.transform.Find("SpawnPoint");
         }
 
-        GameObject newProjectile = Instantiate(fireProjectile, spawnPosition.position, Quaternion.identity) as GameObject; //Spawns the selected projectile
-        newProjectile.transform.LookAt(GameController.Instance.Player.transform); //Sets the projectiles rotation to look at the point clicked
-        newProjectile.GetComponent<Rigidbody>().AddForce(newProjectile.transform.forward * 8000); //Set the speed of the projectile by applying force to the rigidbody
+        GameObject newProjectile = Instantiate(fireProjectile, spawnPosition.position, Quaternion.identity) as GameObject; 
+        newProjectile.transform.LookAt(GameController.Instance.Player.transform); 
+        newProjectile.GetComponent<Rigidbody>().AddForce(newProjectile.transform.forward * 8000); 
         newProjectile.transform.localScale = Vector3.one * 15;
 
     }

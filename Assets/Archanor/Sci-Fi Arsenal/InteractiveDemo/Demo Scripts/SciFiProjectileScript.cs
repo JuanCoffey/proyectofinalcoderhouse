@@ -41,7 +41,7 @@ namespace SciFiArsenal
                 }
                 else if (collisionObject.CompareTag("Player"))
                 {
-                    GameController.Instance.Player.GetComponent<Player>().UpdateHealthValue(-0.1f);
+                    GameController.Instance.Player.GetComponent<Player>().UpdateHealthValue(-0.2f);
                 }
 
                 if (hit.gameObject.tag == "Destructible") // Projectile will destroy objects tagged as Destructible

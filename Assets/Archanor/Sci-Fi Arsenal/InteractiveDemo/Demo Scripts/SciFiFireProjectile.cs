@@ -28,8 +28,8 @@ namespace SciFiArsenal
         public GameObject WeaponIdleParticle2;
 
 
-        [HideInInspector]
         public int currentProjectile = 0;
+        [HideInInspector]
         public float speed = 1000;
         public float Weapon0CoolDown = 0;
         public float Weapon1CoolDown = 0;
@@ -167,6 +167,7 @@ namespace SciFiArsenal
                     Weapon0CoolDown = 5;
                     spawnPosition = spawnPosition0;
                     imgWeapon0Cooldown.fillAmount = 0;
+                    currentProjectile = 5;
                     break;
                 case 1:
                     if (AmmoWeapon1 == 0)
@@ -175,6 +176,7 @@ namespace SciFiArsenal
                     }
                     Weapon1CoolDown = 3.5f;
                     spawnPosition = spawnPosition1;
+                    currentProjectile = 2;
                     imgWeapon1Cooldown.fillAmount = 0;
                     break;
                 case 2:
@@ -185,6 +187,7 @@ namespace SciFiArsenal
                     Weapon2CoolDown = 4.2f;
                     spawnPosition = spawnPosition2;
                     imgWeapon2Cooldown.fillAmount = 0;
+                   // currentProjectile = 8;
                     break;
                 default:
                     spawnPosition = spawnPosition0;
