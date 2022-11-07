@@ -167,7 +167,7 @@ namespace SciFiArsenal
                     Weapon0CoolDown = 5;
                     spawnPosition = spawnPosition0;
                     imgWeapon0Cooldown.fillAmount = 0;
-                    currentProjectile = 7;
+                    currentProjectile = 6;
                     break;
                 case 1:
                     if (AmmoWeapon1 == 0)
@@ -176,7 +176,7 @@ namespace SciFiArsenal
                     }
                     Weapon1CoolDown = 3.5f;
                     spawnPosition = spawnPosition1;
-                    currentProjectile = 2;
+                    currentProjectile = 28;
                     imgWeapon1Cooldown.fillAmount = 0;
                     break;
                 case 2:
