@@ -15,8 +15,7 @@ public class Player : MonoBehaviour
 
 
     }
-
-    void Update()
+    private void FixedUpdate()
     {
         PlayerMovement();
     }
@@ -28,8 +27,8 @@ public class Player : MonoBehaviour
     private void checkInput()
     {
 
-        float movX = Input.GetAxis("Horizontal") * -2f;
-        float movZ = Input.GetAxis("Vertical") * -5f;
+        float movX = Input.GetAxis("Horizontal") * -2.5f;
+        float movZ = Input.GetAxis("Vertical") * -1.8f;
         //   float movRotation = Input.GetAxis("Rotate") * .9f;
         float movRotation = 0;
 
@@ -43,8 +42,8 @@ public class Player : MonoBehaviour
         }
 
         //   transform.Translate(new Vector3(movX, 0, movZ));
-        gameObject.GetComponent<Rigidbody>().AddRelativeForce(Vector3.forward * movZ * 100);
-        gameObject.GetComponent<Rigidbody>().AddForce(transform.right * movX * 100);
+        gameObject.GetComponent<Rigidbody>().AddForce(transform.forward * movZ * 10, ForceMode.Impulse);
+        gameObject.GetComponent<Rigidbody>().AddForce(transform.right * movX * 10, ForceMode.Impulse);
         transform.Rotate(new Vector3(0, movRotation, 0));
     }
 

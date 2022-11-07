@@ -96,13 +96,13 @@ namespace SciFiArsenal
                 previousEffect();
             }
 
-            if (Input.GetKeyDown(KeyCode.Mouse0) )
+            if (Input.GetKeyDown(KeyCode.Mouse0))
             {
                 if (!EventSystem.current.IsPointerOverGameObject())
                 {
                     if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 10000f))
                     {
-                        if (!checkIfOnCooldown())
+                        if (!checkIfOnCooldown() && hit.collider.gameObject.CompareTag("EnemyCastleMesh"))
                         {
                             FireCurrentWeapon();
                         }
@@ -131,7 +131,7 @@ namespace SciFiArsenal
                 return;
             }
 
-            if (!pointerHit.transform.gameObject.CompareTag("EnemyCastleMesh") )
+            if (!pointerHit.transform.gameObject.CompareTag("EnemyCastleMesh"))
             {
                 return;
             }
@@ -140,7 +140,7 @@ namespace SciFiArsenal
             float rotSpeed = 360f;
 
             // distance between target and the actual rotating object
-           // Vector3 D = target.position - transform.position;
+            // Vector3 D = target.position - transform.position;
             Vector3 D = pointerHit.transform.position - cannon.transform.position;
 
 
@@ -151,7 +151,7 @@ namespace SciFiArsenal
             cannon.transform.rotation = rot;
 
             // put 0 on the axys you do not want for the rotation object to rotate
-            cannon.transform.eulerAngles = new Vector3(0, cannon.transform.eulerAngles.y,0);
+            cannon.transform.eulerAngles = new Vector3(0, cannon.transform.eulerAngles.y, 0);
         }
 
         private void FireCurrentWeapon()
@@ -167,7 +167,7 @@ namespace SciFiArsenal
                     Weapon0CoolDown = 5;
                     spawnPosition = spawnPosition0;
                     imgWeapon0Cooldown.fillAmount = 0;
-                    currentProjectile = 5;
+                    currentProjectile = 7;
                     break;
                 case 1:
                     if (AmmoWeapon1 == 0)
@@ -187,7 +187,7 @@ namespace SciFiArsenal
                     Weapon2CoolDown = 4.2f;
                     spawnPosition = spawnPosition2;
                     imgWeapon2Cooldown.fillAmount = 0;
-                   // currentProjectile = 8;
+                     currentProjectile = 13;
                     break;
                 default:
                     spawnPosition = spawnPosition0;
