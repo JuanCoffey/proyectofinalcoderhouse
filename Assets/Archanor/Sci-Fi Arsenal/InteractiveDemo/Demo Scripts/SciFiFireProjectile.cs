@@ -130,19 +130,11 @@ namespace SciFiArsenal
             {
                 return;
             }
-            /*FirePointer*/
-            /*Vector3 targetDirection = pointerHit.transform.position - cannon.transform.position;
 
-            float singleStep = 20 * Time.deltaTime;
-
-            Vector3 newDirection = Vector3.RotateTowards(cannon.transform.forward, targetDirection, singleStep, 0.0f);
-
-            Debug.DrawRay(cannon.transform.position, newDirection, Color.red);
-
-            cannon.transform.rotation = Quaternion.LookRotation(newDirection);*/
-
-
-
+            if (!pointerHit.transform.gameObject.CompareTag("EnemyCastleMesh") )
+            {
+                return;
+            }
 
 
             float rotSpeed = 360f;
