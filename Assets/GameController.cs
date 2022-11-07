@@ -14,6 +14,7 @@ public class GameController : MonoBehaviour
     public GameObject Player;
     public GameObject MainCanvas;
     public GameObject PresentationCamera;
+    public GameObject PlayerSpawnPoint;
 
 
     public GameObject[] EnemyCastlesPositions;
@@ -43,16 +44,12 @@ public class GameController : MonoBehaviour
         CurrentState = ApplicationState.InGame;
         PresentationCamera.SetActive(false);
         Player.SetActive(true);
-
+        Player.transform.position = PlayerSpawnPoint.transform.position;
 
         foreach (Transform castle in EnemyCastles.transform)
         {
             castle.gameObject.GetComponent<EnemyCastle>().HealthBar.transform.parent.transform.parent.gameObject.SetActive(true);
         }
-            
-         
-
-
 
         SciFiFireProjectile sciFiFireProjectile = Player.transform.Find("SciFiFireProjectile").gameObject.GetComponent<SciFiFireProjectile>();
         sciFiFireProjectile.AmmoWeapon0 = 2;
@@ -148,22 +145,31 @@ public class GameController : MonoBehaviour
         }
 
         EnemyCastlesPositionsSelected.Add(randomNumber);
-        createCastle(EnemyCastlesPositions[randomNumber].transform.position);
+        createCastle(EnemyCastlesPositions[randomNumber].transform.position, true);
 
         Invoke("CreateEnemyCastle", 5);
     }
 
-    private void createCastle(Vector3 position)
+    private void createCastle(Vector3 position, bool rotateTowardsPlayer)
     {
         GameObject enemyCastle = UnityEngine.Object.Instantiate(Resources.Load("Prefabs/castle1", typeof(GameObject)), EnemyCastles.transform) as GameObject;
         enemyCastle.transform.position = position;
-        enemyCastle.transform.position = new Vector3(enemyCastle.transform.position.x, 15, enemyCastle.transform.position.z);
+        enemyCastle.transform.localPosition = new Vector3(enemyCastle.transform.localPosition.x, 15, enemyCastle.transform.localPosition.z);
+
+        if (rotateTowardsPlayer)
+        {
         rotateCastleTowards(enemyCastle);
+        }
     }
 
     internal void PlayerDied()
     {
-        createCastle(InitialCastlePosition.transform.position);
+        foreach (Transform castle in EnemyCastles.transform)
+        {
+            Destroy(castle.gameObject);
+        }
+
+        createCastle(InitialCastlePosition.transform.position, false);
         PresentationCamera.SetActive(true);
         Player.SetActive(false);
         MainCanvas.transform.Find("MainMenu").gameObject.SetActive(true);
@@ -261,7 +267,7 @@ public class GameController : MonoBehaviour
 
     private void PlayerWon()
     {
-        createCastle(InitialCastlePosition.transform.position);
+        createCastle(InitialCastlePosition.transform.position, false);
         PresentationCamera.SetActive(true);
         Player.SetActive(false);
         MainCanvas.transform.Find("MainMenu").gameObject.SetActive(true);

@@ -29,6 +29,10 @@ public class EnemyCastle : MonoBehaviour
         Cooldown = MaxCooldown;
         CurrentCannonFire = 0;
 
+        if (GameController.Instance.CurrentState == GameController.ApplicationState.InGame)
+        {
+            HealthBar.transform.parent.transform.parent.gameObject.SetActive(true);
+        }
     }
 
 
@@ -49,7 +53,7 @@ public class EnemyCastle : MonoBehaviour
     {
         GameController.Instance.EnemyDied();
 
-        Destroy(gameObject, 2);
+        Destroy(gameObject, 1);
     }
 
     // Update is called once per frame
