@@ -71,6 +71,7 @@ public class Player : MonoBehaviour
     {
         if (hit.collider.gameObject.CompareTag("AmmoCrate"))
         {
+            GameController.Instance.RemoveCrateFromPositionsUsed(hit.collider.name);
             byte ranAmmoCode = (byte)UnityEngine.Random.Range(0, 3);
             byte ranAmmoCant = (byte)UnityEngine.Random.Range(1, 4);
 
@@ -80,6 +81,7 @@ public class Player : MonoBehaviour
         }
         else if (hit.collider.gameObject.CompareTag("HealthCrate"))
         {
+            GameController.Instance.RemoveCrateFromPositionsUsed(hit.collider.name);
             PickUpHealth();
 
             Destroy(hit.collider.gameObject.transform.parent.gameObject);

@@ -1,7 +1,8 @@
-using SciFiArsenal;
+﻿using SciFiArsenal;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,6 +21,7 @@ public class GameController : MonoBehaviour
     public GameObject[] EnemyCastlesPositions;
     public GameObject[] CratesPositions;
     public List<byte> EnemyCastlesPositionsSelected;
+    public List<byte> CratesPositionsUsed;
     public ApplicationState CurrentState;
 
     public GameObject InitialCastlePosition;
@@ -56,12 +58,19 @@ public class GameController : MonoBehaviour
         sciFiFireProjectile.AmmoWeapon1 = 2;
         sciFiFireProjectile.AmmoWeapon2 = 2;
 
+        sciFiFireProjectile.imgWeapon0Cooldown.transform.parent.Find("lblAmmo").gameObject.GetComponent<TextMeshProUGUI>().text = sciFiFireProjectile.AmmoWeapon0 + "♦";
+        sciFiFireProjectile.imgWeapon1Cooldown.transform.parent.Find("lblAmmo").gameObject.GetComponent<TextMeshProUGUI>().text = sciFiFireProjectile.AmmoWeapon1 + "♦";
+        sciFiFireProjectile.imgWeapon2Cooldown.transform.parent.Find("lblAmmo").gameObject.GetComponent<TextMeshProUGUI>().text = sciFiFireProjectile.AmmoWeapon2 + "♦";
+
+
 
         Invoke("CreateEnemyCastle", 5);
         Invoke("CreateCrate", 5);
         EnemyCastlesPositionsSelected = new List<byte>();
+        CratesPositionsUsed = new List<byte>();
 
         SelectWeapon("0");
+        MainCanvas.transform.Find("imgMainMenuBg").gameObject.SetActive(false);
         MainCanvas.transform.Find("MainMenu").gameObject.SetActive(false);
         MainCanvas.transform.Find("GameCanvas").gameObject.SetActive(true);
         Player.GetComponent<Player>().ResetHealth();
@@ -81,6 +90,19 @@ public class GameController : MonoBehaviour
 
     }
 
+    public void RemoveCrateFromPositionsUsed(string crateName)
+    {
+        byte index = byte.Parse(crateName.Replace("crate_", ""));
+
+        for (int i = CratesPositionsUsed.Count - 1; i >= 0; i--)
+        {
+            if (CratesPositionsUsed[i] == index)
+            {
+                CratesPositionsUsed.RemoveAt(i);
+            }
+        }
+    }
+
     private void CreateCrate()
     {
         if (Crates.transform.childCount == 5)
@@ -91,9 +113,20 @@ public class GameController : MonoBehaviour
         }
 
         //get a random spawn position for new crate
-        int index = UnityEngine.Random.Range(0, CratesPositions.Length);
-        GameObject spawnPoint = CratesPositions[index];
+        byte index = (byte)UnityEngine.Random.Range(0, CratesPositions.Length);
 
+        foreach (var cratesPositionsUsedIndex in CratesPositionsUsed)
+        {
+            if (cratesPositionsUsedIndex == index)
+            {
+                CreateCrate();
+                return;
+            }
+        }
+
+        CratesPositionsUsed.Add(index);
+
+        GameObject spawnPoint = CratesPositions[index];
 
         string prefabName = "AmmoCrate";
 
@@ -107,21 +140,7 @@ public class GameController : MonoBehaviour
         GameObject crateInstance = UnityEngine.Object.Instantiate(Resources.Load("Prefabs/" + prefabName, typeof(GameObject)), Crates.transform) as GameObject;
         crateInstance.transform.position = spawnPoint.transform.position;
         crateInstance.transform.position = new Vector3(crateInstance.transform.position.x, 50, crateInstance.transform.position.z);
-        crateInstance.name = "crate_" + Crates.transform.childCount;
-
-
-        for (int i = 0; i < Crates.transform.childCount; i++)
-        {
-            //check if there is already a create at the desired position
-            //if there is one, recursively call current method and try again
-            if (crateInstance.transform.position == Crates.transform.GetChild(i).transform.position && !Crates.transform.GetChild(i).name.Equals(crateInstance.name))
-            {
-                Destroy(crateInstance);
-                CreateCrate();
-                return;
-            }
-        }
-
+        crateInstance.transform.Find("Capsule").name = "crate_" + index;
 
         Invoke("CreateCrate", 5);
     }
@@ -158,7 +177,7 @@ public class GameController : MonoBehaviour
 
         if (rotateTowardsPlayer)
         {
-        rotateCastleTowards(enemyCastle);
+            rotateCastleTowards(enemyCastle);
         }
     }
 
@@ -174,6 +193,7 @@ public class GameController : MonoBehaviour
         Player.SetActive(false);
         MainCanvas.transform.Find("GameCanvas").gameObject.SetActive(false);
         MainCanvas.transform.Find("MainMenu").gameObject.SetActive(true);
+        MainCanvas.transform.Find("imgMainMenuBg").gameObject.SetActive(true);
         MainCanvas.transform.Find("MainMenu").transform.Find("lblLost").gameObject.SetActive(true);
         CurrentState = ApplicationState.MainMenu;
     }
@@ -273,6 +293,7 @@ public class GameController : MonoBehaviour
         MainCanvas.transform.Find("GameCanvas").gameObject.SetActive(false);
         Player.SetActive(false);
         MainCanvas.transform.Find("MainMenu").gameObject.SetActive(true);
+        MainCanvas.transform.Find("imgMainMenuBg").gameObject.SetActive(true);
         MainCanvas.transform.Find("MainMenu").transform.Find("lblLost").gameObject.SetActive(false);
         MainCanvas.transform.Find("MainMenu").transform.Find("lblWon").gameObject.SetActive(true);
         CurrentState = ApplicationState.MainMenu;
