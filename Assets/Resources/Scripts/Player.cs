@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
     void Start()
     {
 
-       
+
     }
 
     void Update()
@@ -28,8 +28,8 @@ public class Player : MonoBehaviour
     private void checkInput()
     {
 
-        float movX = Input.GetAxis("Horizontal") * -0.2f;
-        float movZ = Input.GetAxis("Vertical") * -0.2f;
+        float movX = Input.GetAxis("Horizontal") * -2f;
+        float movZ = Input.GetAxis("Vertical") * -5f;
         //   float movRotation = Input.GetAxis("Rotate") * .9f;
         float movRotation = 0;
 
@@ -43,12 +43,13 @@ public class Player : MonoBehaviour
         }
 
         //   transform.Translate(new Vector3(movX, 0, movZ));
-      //  transform.gameObject.GetComponent<Rigidbody>().AddForce(new Vector3(movX, 0, movZ));
-        gameObject.GetComponent<Rigidbody>().AddForce(transform.forward , ForceMode.Impulse);
+        gameObject.GetComponent<Rigidbody>().AddRelativeForce(Vector3.forward * movZ * 100);
+        gameObject.GetComponent<Rigidbody>().AddForce(transform.right * movX * 100);
         transform.Rotate(new Vector3(0, movRotation, 0));
     }
 
-    public void ResetHealth() {
+    public void ResetHealth()
+    {
 
 
         CurrentHealth = 1;
@@ -78,7 +79,7 @@ public class Player : MonoBehaviour
 
             Destroy(hit.collider.gameObject.transform.parent.gameObject);
         }
-        else if(hit.collider.gameObject.CompareTag("HealthCrate"))
+        else if (hit.collider.gameObject.CompareTag("HealthCrate"))
         {
             PickUpHealth();
 
