@@ -58,7 +58,7 @@
   <ItemGroup>
     <Compile Include="Assets\Archanor\Sci-Fi Arsenal\InteractiveDemo\Demo Scripts\SciFiLoadSceneOnClick.cs" />
     <Compile Include="Assets\Archanor\Sci-Fi Arsenal\Sci-Fi Effects\Scripts\SciFiLightFlicker.cs" />
-    <Compile Include="Assets\EnemyCaslte.cs" />
+    <Compile Include="Assets\EnemyCastle.cs" />
     <Compile Include="Assets\Archanor\Sci-Fi Arsenal\Sci-Fi Effects\Scripts\SciFiPitchRandomizer.cs" />
     <Compile Include="Assets\Archanor\Sci-Fi Arsenal\Sci-Fi Effects\Scripts\SciFiRotation.cs" />
     <Compile Include="Assets\Archanor\Sci-Fi Arsenal\InteractiveDemo\Demo Scripts\SciFiProjectileScript.cs" />

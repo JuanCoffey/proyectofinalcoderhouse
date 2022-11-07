@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EnemyCaslte : MonoBehaviour
+public class EnemyCastle : MonoBehaviour
 {
     public float CurrentHealth;
     public float Cooldown;
@@ -28,6 +28,7 @@ public class EnemyCaslte : MonoBehaviour
         CurrentHealth = 1;
         Cooldown = MaxCooldown;
         CurrentCannonFire = 0;
+
     }
 
 
@@ -54,6 +55,11 @@ public class EnemyCaslte : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (GameController.Instance.CurrentState == GameController.ApplicationState.MainMenu)
+        {
+            return;
+        }
+
         Cooldown -= Time.deltaTime;
         CooldownBar.GetComponent<Image>().fillAmount = 1 - (Cooldown / MaxCooldown);
 
@@ -75,7 +81,7 @@ public class EnemyCaslte : MonoBehaviour
         if (CurrentCannonFire == 0)
         {
             fireProjectile = projectile0;
-           CurrentCannonFire = 1;
+            CurrentCannonFire = 1;
             spawnPosition = Cannon0.transform.Find("barrel").transform.Find("SpawnPoint");
         }
         else

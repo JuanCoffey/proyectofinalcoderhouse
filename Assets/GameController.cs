@@ -44,6 +44,16 @@ public class GameController : MonoBehaviour
         PresentationCamera.SetActive(false);
         Player.SetActive(true);
 
+
+        foreach (Transform castle in EnemyCastles.transform)
+        {
+            castle.gameObject.GetComponent<EnemyCastle>().HealthBar.transform.parent.transform.parent.gameObject.SetActive(true);
+        }
+            
+         
+
+
+
         SciFiFireProjectile sciFiFireProjectile = Player.transform.Find("SciFiFireProjectile").gameObject.GetComponent<SciFiFireProjectile>();
         sciFiFireProjectile.AmmoWeapon0 = 2;
         sciFiFireProjectile.AmmoWeapon1 = 2;

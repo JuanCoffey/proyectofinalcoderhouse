@@ -37,7 +37,7 @@ namespace SciFiArsenal
 
                 if (collisionObject.CompareTag("EnemyCastleMesh"))
                 {
-                    collisionObject.transform.parent.gameObject.GetComponent<EnemyCaslte>().UpdateHealthValue(-0.1f);
+                    collisionObject.transform.parent.gameObject.GetComponent<EnemyCastle>().UpdateHealthValue(-0.1f);
                 }
                 else if (collisionObject.CompareTag("Player"))
                 {
