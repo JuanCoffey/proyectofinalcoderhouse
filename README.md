@@ -1,6 +1,6 @@
 # Space Castle
 
-Reglas del juego:
+<b>Reglas del juego:</b>
 
 "You are stranded in an ancient, strange galaxy.
 
@@ -25,6 +25,6 @@ RMB - Point camera
 
 
 
-Desarrolladores:
+<b>Desarrolladores:</b>
 
 Juan Pablo Coffey
