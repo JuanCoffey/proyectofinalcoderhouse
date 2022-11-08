@@ -8,6 +8,7 @@ Use your space ship to find your way back home. You will find crates with ammo a
 
 ...One more thing, the locals may not be very friendly, so you will probably need to take them all out before leaving this hellscape."
 
+
 Controles:
 
 W, S - Forward, Back
@@ -21,6 +22,7 @@ Q, E - Rotate ship
 LMB - Fire weapon
 
 RMB - Point camera
+
 
 
 Desarrolladores:
