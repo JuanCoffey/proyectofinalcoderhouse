@@ -11,11 +11,17 @@ Use your space ship to find your way back home. You will find crates with ammo a
 Controles:
 
 W, S - Forward, Back
+
 A, D - Strafe ship
+
 Q, E - Rotate ship
+
 1...4 - Select weapon
+
 LMB - Fire weapon
+
 RMB - Point camera
+
 
 Desarrolladores:
 
