@@ -1,4 +1,4 @@
-# proyectofinalcoderhouse
+# Space Castle
 
 Reglas del juego:
 
