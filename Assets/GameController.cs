@@ -26,6 +26,9 @@ public class GameController : MonoBehaviour
 
     public GameObject InitialCastlePosition;
 
+    public short EnemiesDestroyed=0;
+    public GameObject EnemiesDestroyedLabel;
+
 
     public void Awake()
     {
@@ -196,6 +199,8 @@ public class GameController : MonoBehaviour
         MainCanvas.transform.Find("imgMainMenuBg").gameObject.SetActive(true);
         MainCanvas.transform.Find("MainMenu").transform.Find("lblLost").gameObject.SetActive(true);
         CurrentState = ApplicationState.MainMenu;
+        EnemiesDestroyed = 0;
+        EnemiesDestroyedLabel.GetComponent<TextMeshProUGUI>().text = "Enemies destroyed: " + EnemiesDestroyed;
     }
 
     void rotateCastleTowards(GameObject castle)
@@ -276,6 +281,8 @@ public class GameController : MonoBehaviour
     {
         //wait for the current castle to die and then check if there are any left
         Invoke("checkEnemiesLeft", 3);
+        EnemiesDestroyed++;
+        EnemiesDestroyedLabel.GetComponent<TextMeshProUGUI>().text = "Enemies destroyed " + EnemiesDestroyed;
     }
 
     private void checkEnemiesLeft()

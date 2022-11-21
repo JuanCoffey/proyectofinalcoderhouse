@@ -43,8 +43,9 @@ public class EnemyCastle : MonoBehaviour
 
         Cooldown += 1;
 
-        if (CurrentHealth <= 0)
+        if (CurrentHealth <= 0 && CurrentHealth > -1)
         {
+            CurrentHealth = -1;
             this.CastleDied();
         }
     }
